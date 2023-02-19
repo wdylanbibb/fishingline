@@ -207,6 +207,10 @@ function __fishingline_info_line --argument-names left_text right_text line_leng
   printf "%s%s%s\n" $left_text (string repeat -n $line_length " ") $right_text
 end
 
+function __fishingline_prompt
+  printf '$ '
+end
+
 function fish_prompt
   set -f last_status $status
 
@@ -248,6 +252,10 @@ function fish_prompt
     end
 
     set_color normal
-    printf "\$ "
+    if functions -q "fishingline_prompt"
+      fishingline_prompt
+    else
+      __fishingline_prompt
+    end
   end
 end
